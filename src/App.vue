@@ -2,12 +2,12 @@
 <template>
   <!--<img src="logo.png" alt="logo">-->
     <img src="logo.png" alt="logo">
-    <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomCard ? randomCard.color : '')">
+    <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : cardContentBlack[0].color)">
       <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
-        {{ randomCard ? randomCard.content : '' }}
+        {{ randomItem ? randomItem.content : cardContentBlack[0].content }}
       </div>
       <div class="text-[16px] text-start text-white font-black">
-        {{ randomCard ? randomCard.smallText : '' }}
+        {{ randomItem ? randomItem.smallText : cardContentBlack[0].smallText }}
       </div>
     </div>
     <div class="flex items-center gap-x-[200px] justify-between">
@@ -96,9 +96,9 @@ export default {
   methods: {
     getRandomCard() {
       if(this.cardContentBlack.length > 0){
-        const randomCard = Math.floor(Math.random() * this.items.length);
+        const randomCard = Math.floor(Math.random() * this.cardContentBlack.length);
         this.randomItem = this.cardContentBlack[randomCard];
-        this.items.splice(randomCard, 1);
+        this.cardContentBlack.splice(randomCard, 1);
       } else {
         this.randomItem = null;
       }
