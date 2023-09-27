@@ -1,16 +1,23 @@
 
 <template>
   <!--<img src="logo.png" alt="logo">-->
-  <div class="flex justify-center items-center">
-      <div class="h-[350px] w-[250px] border-white border-[1px] black-card-bg rounded-[25px] flex flex-col align-start justify-between p-[22px]">
-        <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
-          Брат, не можеш да целунеш долната част на обувката на играча срещу теб. Направи го, пий два шота или излез от играта.
-        </div>
-        <div class="text-[16px] text-start text-white font-black">
-          Тази карта носи 2 точки.
-        </div>
+    <img src="logo.png" alt="logo">
+    <div class="h-[350px] w-[250px] border-white border-[1px] black-card-bg rounded-[25px] flex flex-col align-start justify-between p-[22px]">
+      <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
+        Брат, не можеш да целунеш долната част на обувката на играча срещу теб. Направи го, пий два шота или излез от играта.
       </div>
-  </div>
+      <div class="text-[16px] text-start text-white font-black">
+        Тази карта носи 2 точки.
+      </div>
+    </div>
+    <div class="flex items-center gap-x-[200px] justify-between">
+      <button>
+        <ion-icon name="chevron-back-circle" class="text-white text-[100px] opacity-5 transition-all ease-in duration-300 hover:scale-[1.1]"></ion-icon>
+      </button>
+      <button>
+        <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]"></ion-icon>
+      </button>
+    </div>
 
 </template>
 
@@ -82,7 +89,8 @@ export default {
 
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
-      ]
+      ],
+      randomItem: null
     };
   },
   computed: {},
