@@ -15,6 +15,10 @@
   --green-cards: #88C040;
 }
 
+*{
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 body{
   background-color: #1D181E;
   height: 100vh;
@@ -24,6 +28,9 @@ body{
   background-image: url("bg/bg-desktop.png");
   background-size: cover;
   background-position: center;
+}
+
+.font-montserrat{
   font-family: 'Montserrat', sans-serif !important;
 }
 

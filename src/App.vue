@@ -1,13 +1,9 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
 
 <template>
-  <img src="logo.png" alt="logo">
+  <!--<img src="logo.png" alt="logo">-->
   <div class="flex justify-center items-center">
       <div class="h-[350px] w-[250px] border-white border-[1px] black-card-bg rounded-[25px] flex flex-col align-start justify-between p-[22px]">
-        <div class="text-[18px] leading-[20px] text-start text-white font-black">
+        <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
           Брат, не можеш да целунеш долната част на обувката на играча срещу теб. Направи го, пий два шота или излез от играта.
         </div>
         <div class="text-[16px] text-start text-white font-black">
@@ -15,15 +11,7 @@ import TheWelcome from './components/TheWelcome.vue'
         </div>
       </div>
   </div>
-  <div class="relative w-full overflow-hidden" id="carousel-container">
-    <div class="flex transition-transform duration-500 ease-in-out" id="carousel-post">
-        <div class="flex justify-center items-center bg-teal-400"  v-for="(post, index) in posts" :key="index">{{post}}</div>
-    </div>
-    <div class="flex justify-center items-center mt-[1rem]">
-      <button id="prevBtn" @click="moveToPrev">Previous</button>
-      <button id="nextBtn" @click="moveToNext">Next</button>
-    </div>
-  </div>
+
 </template>
 
 <script>
@@ -34,59 +22,71 @@ export default {
       currentIndex: 0,
       posts: [1,2,3],
       autoMoveInterval: null,
+      cardContentBlack: [
+        { content: "Брат, не можеш да махнеш чорапите си със зъби. Ако не можеш - пий два пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: "Брат, не можеш да бъркаш из кошчето и да назовеш всичко, което намериш. Ако не можеш - пий два пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: "Брат, не можеш да сложиш бельото си върху панталоните си до края на играта. Ако не можеш - пий три пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: "Брат, не можеш да подушиш подмишницата на човека отдясно и да опишеш как мирише на цялата компания. Ако не можеш - пий два пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: "Брат, не можеш да направиш снимка на тампон и да я публикуваш в инстаграм. Ако не можеш - довърши си питието.", smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да ce обадиш в пицария и да поръчаш пица c "Путешко месо". Ако не можеш - пий три пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да ce обадиш в автокъща и да попиташ дали може да си закупиш каруца. Ако не можеш - довърши си питието.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да пееш вместо да говориш през следващите два рунда на играта. Ако не можеш - пий два пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да се обадиш случаен номер и да му изпееш „Честит рожден ден“. Ако не можеш - пий три пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да дадеш на някой да сложи лед в панталоните ти.  Ако не можеш - пий два пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да харесаш всички постове и акценти на първия човек, който ти излезе в инстаграм.  Ако не можеш - пий два пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да свалиш чорапите от краката на човека отдясно и да ги носиш като ръкавици до следващия си ред. Ако не можеш - довърши си питието.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да опишеш подробно какво е усещането при оргазъм. Ако не можеш - пий два пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да направиш 25 лицеви опори. Ако не можеш - пий три пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да качиш 20-тата си снимка от галерията си на стори. Ако не можеш - пий три пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да целунеш човека отдясно. Ако не можеш - довърши си питието.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да потопиш чорапите си в тоалетната и да ги носиш до края на играта. Ако не можеш - пий два пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+        { content: 'Брат, не можеш да се опиташ да счупиш световен рекорд по твой избор. Ако не можеш - пий три пъти.', smallText: "Тази карта носи 1 точка", color: "purple" },
+
+        { content: 'Брат, не можеш да целунеш долната част на обувката на играча срещу теб. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да махаш дреха всеки път, когато получиш известие на телефона. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да оближеш майонеза от пръста на крака на човека отляво. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да попиташ съседа си кога се плащаше таксата за асансьора, но с бельо на лицето ти. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да потопиш пръста си в тоалетната и след това го целунеш. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да влезеш в контейнер за боклук. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да повървиш из квартала по бельо. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да оставиш всеки човек в групата да те удари по задника. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        { content: 'Брат, не можеш да оближеш гума на кола. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
+        
+        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
+        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
+      ],
+      cardContentWhite: [
+        { content: 'Гласувайте кой от компанията е най-вероятно да спи с някой над 60-годишна възраст. Който е с най-много гласове - пие веднъж.', smallText: '#bratnemozhesh...', color: 'yellow' },
+        { content: 'Гласувайте кой от компанията е най-вероятно да си напише името грешно. Който е с най-много гласове - пие веднъж.', smallText: '#bratnemozhesh...', color: 'yellow' },
+        { content: 'Гласувайте кой от компанията е най-вероятно да участва в оргия. Който е с най-много гласове - пие веднъж.', smallText: '#bratnemozhesh...', color: 'yellow' },
+        { content: 'Гласувайте кой от компанията е най-вероятно да пише на бившия/та си, когато е пиян. Който е с най-много гласове - пие веднъж.', smallText: '#bratnemozhesh...', color: 'yellow' },
+        { content: 'Гласувайте кой от компанията е най-вероятно да се сбие в дискотека. Който е с най-много гласове - пие веднъж.', smallText: '#bratnemozhesh...', color: 'yellow' },
+        { content: 'Гласувайте кой от компанията е най-вероятно да има фетиш към крака? Който е с най-много гласове - пие веднъж.', smallText: '#bratnemozhesh...', color: 'yellow' },
+
+        { content: 'Избери си някого, с когото да се състезаваш на "Кой ще мигне пръв". Който спечели, получава една точка, който загуби - пие шот.', smallText: '#bratnemozhesh...', color: 'red' },
+        { content: 'Избери си някого, с когото да се състезаваш кой ще се съблече по-бързо. Който спечели, получава една точка, който загуби - пие шот.', smallText: '#bratnemozhesh...', color: 'red' },
+        { content: 'Избери си някого, с когото да се състезаваш кой ще намери скрит от компанията предмет първи. Който спечели, получава една точка, който загуби - пие шот.', smallText: '#bratnemozhesh...', color: 'red' },
+        { content: 'Избери си някого, с когото да се състезаваш кой ще нарисува по-добре някого от компанията. Който спечели, получава една точка, който загуби - пие шот.', smallText: '#bratnemozhesh...', color: 'red' },
+        { content: 'Избери си някого, с когото да се състезаваш кой ще издържи повече на "Планк". Който спечели, получава една точка, който загуби - пие шот.', smallText: '#bratnemozhesh...', color: 'red' },
+        { content: 'Избери си някого, с когото да се състезаваш кой ще качи по-тъпо стори в инстаграм. Който спечели, получава една точка, който загуби - пие шот.', smallText: '#bratnemozhesh...', color: 'red' },
+
+        { content: 'Брат, няма да повярваш - всички, които имат сини очи пият веднъж. Ако никой няма сини очи, всички пият.', smallText: '#bratnemozhesh...', color: 'teal' },
+        { content: 'Брат, няма да повярваш - всички, които са бягали от полицията пият веднъж. Ако никой не е бягал от полицията, всички пият.', smallText: '#bratnemozhesh...', color: 'teal' },
+        { content: 'Брат, няма да повярваш - всеки, който е правил секс на плажа пие веднъж. Ако никой не е правил секс на плажа, всички пият.', smallText: '#bratnemozhesh...', color: 'teal' },
+        { content: 'Брат, няма да повярваш - всеки, който е бачкал това лято пие веднъж. Ако никой не е бачкал това лято, всички пият.', smallText: '#bratnemozhesh...', color: 'teal' },
+        { content: 'Брат, няма да повярваш - всички жени пият.', smallText: '#bratnemozhesh...', color: 'teal' },
+        { content: 'Брат, няма да повярваш - всички мъже пият.', smallText: '#bratnemozhesh...', color: 'teal' },
+
+        { content: 'Запази тази карта и я използвай когато не ти се пие. Тя те защитава от пиене.', smallText: '#bratnemozhesh...', color: 'green' },
+        { content: 'Запази тази карта и я използвай, ако искаш да изтеглиш ново предизвикателство.', smallText: '#bratnemozhesh...', color: 'green' },
+
+        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
+        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
+      ]
     };
   },
-  computed: {
-    carouselStyle() {
-      return {
-        transform: `translateX(-${this.currentIndex * 100}%)`,
-      };
-    },
-    dots() {
-      return Array.from({ length: this.posts.length }, (_, index) => index);
-    },
-  },
-  methods: {
-    updateCarousel() {
-      carouselContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-      const activeDot = dotsContainer.querySelector('.active-dot');
-      if (activeDot) {
-          activeDot.classList.remove('active-dot');
-      }
-      dotsContainer.children[currentIndex].classList.add('active-dot');
-    },
-    moveToNext() {
-    currentIndex = (currentIndex + 1) % posts.length;
-    updateCarousel();
-    },
-    moveToPrev() {
-      currentIndex = (currentIndex - 1 + posts.length) % posts.length;
-      updateCarousel();
-    },
-    goTo(index) {
-      this.currentIndex = index;
-      this.updateCarousel();
-    },
-    autoMove() {
-      this.moveToNext();
-    },
-  },
-  mounted() {
-    this.updateCarousel();
-
-    // Automatic movement
-    this.autoMoveInterval = setInterval(this.autoMove, 3000);
-
-    // Pause on hover
-    this.$el.addEventListener('mouseenter', () => {
-      clearInterval(this.autoMoveInterval);
-    });
-
-    this.$el.addEventListener('mouseleave', () => {
-      this.autoMoveInterval = setInterval(this.autoMove, 3000);
-    });
-  },
+  computed: {},
+  methods: {}
 };
 
 </script>
