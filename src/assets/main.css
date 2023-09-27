@@ -34,6 +34,21 @@ body{
   font-family: 'Montserrat', sans-serif !important;
 }
 
-.black-card-bg{
-  background-color: var(--main-cards);
+.black{
+  background-color: var(--main-cards) !important;
+}
+.purple{
+  background-color: var(--purple-cards) !important;
+}
+.yellow{
+  background-color: var(--yellow-cards) !important;
+}
+.red{
+  background-color: var(--red-cards) !important;
+}
+.teal{
+  background-color: var(--teal-cards) !important;
+}
+.green{
+  background-color: var(--green-cards) !important;
 }
