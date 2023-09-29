@@ -12,10 +12,10 @@
     </div>
     <div class="flex items-center gap-x-[200px] justify-between">
       <button>
-        <ion-icon name="chevron-back-circle" class="text-white text-[100px] opacity-5 transition-all ease-in duration-300 hover:scale-[1.1]"></ion-icon>
+        <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
       </button>
       <button @click="getRandomCard">
-        <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]"></ion-icon>
+        <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
       </button>
     </div>
 
@@ -58,9 +58,6 @@ export default {
         { content: 'Брат, не можеш да повървиш из квартала по бельо. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
         { content: 'Брат, не можеш да оставиш всеки човек в групата да те удари по задника. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
         { content: 'Брат, не можеш да оближеш гума на кола. Направи го, пий два шота или излез от играта.', smallText: "Тази карта носи 2 точки", color: "black" },
-        
-        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
-        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
       ],
       cardContentWhite: [
         { content: 'Гласувайте кой от компанията е най-вероятно да спи с някой над 60-годишна възраст. Който е с най-много гласове - пие веднъж.', smallText: '#bratnemozhesh...', color: 'yellow' },
@@ -86,20 +83,55 @@ export default {
 
         { content: 'Запази тази карта и я използвай когато не ти се пие. Тя те защитава от пиене.', smallText: '#bratnemozhesh...', color: 'green' },
         { content: 'Запази тази карта и я използвай, ако искаш да изтеглиш ново предизвикателство.', smallText: '#bratnemozhesh...', color: 'green' },
-
-        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
+      ],
+      switch: [
+        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
       ],
-      randomItem: null
+      additionalClassObject: {
+        'opacity-5': true
+      },
+      usedCards: [],
+      randomItem: null,
+      counter: 0,
+      black: true
     };
   },
   methods: {
     getRandomCard() {
-      if(this.cardContentBlack.length > 0){
-        const randomCard = Math.floor(Math.random() * this.cardContentBlack.length);
+      if(this.usedCards.length == 0){
+        this.additionalClassObject['opacity-5'] = true;
+      } else {
+        this.additionalClassObject['opacity-5'] = false;
+      }
+
+      console.log(this.black);
+
+      if(this.cardContentBlack.length > 0 && this.black){
+        let randomCard = Math.floor(Math.random() * this.cardContentBlack.length);
+        console.log("random: " + randomCard)
         this.randomItem = this.cardContentBlack[randomCard];
         this.cardContentBlack.splice(randomCard, 1);
-      } else {
+        this.counter++;
+        console.log(this.counter)
+        if(this.counter == 12){
+          this.randomItem = this.switch[0]
+          this.black = false;
+          this.counter = 0;
+        }
+      } else if(this.cardContentWhite.length > 0 && !this.black){
+        let randomCard = Math.floor(Math.random() * this.cardContentWhite.length);
+        this.randomItem = this.cardContentWhite[randomCard];
+        this.cardContentWhite.splice(randomCard, 1);
+        this.counter++;
+        console.log(this.counter)
+        if(this.counter == 12){
+          this.randomItem = this.switch[0]
+          this.black = true;
+          this.counter = 0;
+        }
+      }      
+      else {
         this.randomItem = null;
       }
     }
