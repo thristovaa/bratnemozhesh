@@ -4,14 +4,14 @@
     <img src="logo.png" alt="logo">
     <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : cardContentBlack[0].color)">
       <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
-        {{ randomItem ? randomItem.content : cardContentBlack[0].content }}
+        {{ randomItem ? randomItem.content : "brt" }}
       </div>
       <div class="text-[16px] text-start text-white font-black">
-        {{ randomItem ? randomItem.smallText : cardContentBlack[0].smallText }}
+        {{ randomItem ? randomItem.smallText : "brt" }}
       </div>
     </div>
     <div class="flex items-center gap-x-[200px] justify-between">
-      <button>
+      <button @click="getPreviousCard">
         <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
       </button>
       <button @click="getRandomCard">
@@ -22,12 +22,13 @@
 </template>
 
 <script>
+import { getTransitionRawChildren } from 'vue';
+
 
 export default {
   data() {
     return {
       currentIndex: 0,
-      posts: [1,2,3],
       autoMoveInterval: null,
       cardContentBlack: [
         { content: "Брат, не можеш да махнеш чорапите си със зъби. Ако не можеш - пий два пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
@@ -86,53 +87,85 @@ export default {
       ],
       switch: [
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
+        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
+        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
       ],
       additionalClassObject: {
-        'opacity-5': true
+        'opacity-5': true,
+        'opacity-10': false
       },
       usedCards: [],
       randomItem: null,
       counter: 0,
+      counterAll: 0,
       black: true
     };
   },
   methods: {
     getRandomCard() {
-      if(this.usedCards.length == 0){
-        this.additionalClassObject['opacity-5'] = true;
-      } else {
-        this.additionalClassObject['opacity-5'] = false;
+      if(this.counterAll == this.usedCards.length){
+        this.counterAll++;
+        console.log("counter: " + this.counterAll);
+
+        console.log(this.black);
+
+        if(this.cardContentBlack.length > 0 && this.black){
+          let randomCard = Math.floor(Math.random() * this.cardContentBlack.length);
+          console.log("random: " + randomCard)
+          this.randomItem = this.cardContentBlack[randomCard];
+
+          let previousCard = this.cardContentBlack.splice(randomCard, 1);
+          this.usedCards.push(previousCard);
+
+          if(this.usedCards.length > 0) console.log("There are used cards");
+          console.log(JSON.stringify(this.usedCards, null, 2));
+
+          this.counter++;
+          console.log(this.counter)
+          if(this.counter == 12){
+            this.randomItem = this.switch[0]
+            this.black = false;
+            this.counter = 0;
+          }
+        } else if(this.cardContentWhite.length > 0 && !this.black){
+          let randomCard = Math.floor(Math.random() * this.cardContentWhite.length);
+          this.randomItem = this.cardContentWhite[randomCard];
+          
+          let previousCard = this.cardContentWhite.splice(randomCard, 1);
+          this.usedCards.previousCard = previousCard;
+
+          console.log(this.usedCards[0]);
+          this.counter++;
+
+          console.log(this.counter)
+          if(this.counter == 12){
+            this.randomItem = this.switch[0]
+            this.black = true;
+            this.counter = 0;
+          }
+        }      
+        else {
+          this.randomItem = null;
+        }
       }
-
-      console.log(this.black);
-
-      if(this.cardContentBlack.length > 0 && this.black){
-        let randomCard = Math.floor(Math.random() * this.cardContentBlack.length);
-        console.log("random: " + randomCard)
-        this.randomItem = this.cardContentBlack[randomCard];
-        this.cardContentBlack.splice(randomCard, 1);
-        this.counter++;
-        console.log(this.counter)
-        if(this.counter == 12){
-          this.randomItem = this.switch[0]
-          this.black = false;
-          this.counter = 0;
+      else{
+        this.counterAll++;
+        console.log(JSON.stringify(this.usedCards, null, 2));
+        const nextCard = this.usedCards[this.counterAll - 1];
+        this.randomItem = nextCard[0];
+        console.log(this.randomItem);
+      }
+    },
+    getPreviousCard() {
+      if (this.usedCards.length > 0) {
+        if (this.counterAll > 0) {
+          this.counterAll--; // Decrement the counterAll
+          console.log("counter: " + this.counterAll);
         }
-      } else if(this.cardContentWhite.length > 0 && !this.black){
-        let randomCard = Math.floor(Math.random() * this.cardContentWhite.length);
-        this.randomItem = this.cardContentWhite[randomCard];
-        this.cardContentWhite.splice(randomCard, 1);
-        this.counter++;
-        console.log(this.counter)
-        if(this.counter == 12){
-          this.randomItem = this.switch[0]
-          this.black = true;
-          this.counter = 0;
-        }
-      }      
-      else {
-        this.randomItem = null;
+        const previousCard = this.usedCards[this.counterAll - 1];
+        this.randomItem = previousCard[0];
+        console.log(JSON.stringify(this.usedCards, null, 2));
       }
     }
   }
