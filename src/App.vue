@@ -19,6 +19,16 @@
       </button>
     </div>
 
+    <div class="none fixed top-[50%] left-[50%] transform translate-x-[50%] translate-y-[50%] bg-white rounded-[25px] p-[20px] z-50" v-if="showModal">
+      <div class="modal-content">
+          <h2>Modal Content</h2>
+          <p>This is your modal content.</p>
+          <button @click="closeModal">Close</button>
+      </div>
+    </div>
+
+    <div class="none fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 z-40 backdrop-blur" v-if="showModal"></div>
+
 </template>
 
 <script>
@@ -99,8 +109,12 @@ export default {
       randomItem: null,
       counter: 0,
       counterAll: 0,
-      black: true
+      black: true,
+      showModal: false
     };
+  },
+  mounted() {
+    this.showModal = true
   },
   methods: {
     getRandomCard() {
@@ -167,6 +181,9 @@ export default {
         this.randomItem = previousCard[0];
         console.log(JSON.stringify(this.usedCards, null, 2));
       }
+    },
+    closeModal() {
+      this.showModal = false;
     }
   }
 };

@@ -19,15 +19,28 @@
   font-family: 'Montserrat', sans-serif !important;
 }
 
+@media (max-width: 768px) {
+  body{
+    background-image: url("bg/bg-mobile.png");
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@media (min-width: 768px) {
+  body{
+    background-image: url("bg/bg-desktop.png");
+    background-size: cover;
+    background-position: center;
+  }
+}
+
 body{
   background-color: #1D181E;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("bg/bg-desktop.png");
-  background-size: cover;
-  background-position: center;
 }
 
 .font-montserrat{
