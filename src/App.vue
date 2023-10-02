@@ -2,30 +2,59 @@
 <template>
   <!--<img src="logo.png" alt="logo">-->
     <img src="logo.png" alt="logo">
-    <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : cardContentBlack[0].color)">
-      <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
-        {{ randomItem ? randomItem.content : "brt" }}
-      </div>
-      <div class="text-[16px] text-start text-white font-black">
-        {{ randomItem ? randomItem.smallText : "brt" }}
-      </div>
-    </div>
-    <div class="flex items-center gap-x-[200px] justify-between">
-      <button @click="getPreviousCard">
-        <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
-      </button>
-      <button @click="getRandomCard">
-        <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
-      </button>
-    </div>
 
-    <div class="none fixed top-[50%] left-[50%] transform translate-x-[50%] translate-y-[50%] bg-white rounded-[25px] p-[20px] z-50" v-if="showModal">
-      <div class="modal-content">
-          <h2>Modal Content</h2>
-          <p>This is your modal content.</p>
-          <button @click="closeModal">Close</button>
+    <template v-if="firstVisit">
+      <div class="h-[40vh] w-[50vw] border-white bg-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px]">
+        <div v-html="rules[ruleCurrent]"></div>
+        <div v-if="ruleCurrent == rules.length - 1">
+          <input type="checkbox" id="consent" v-model="ruleConsent" class="me-2" /> 
+          <label for="consent">I agree...</label>
+        </div>
+
+        <template v-if="ruleCurrent + 1 < rules.length">
+          <div class="flex items-center gap-x-[200px] justify-between">
+            <button @click="rulePrev">
+              <ion-icon name="chevron-back-circle" class="text-black text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
+            </button>
+            <button @click="ruleNext">
+              <ion-icon name="chevron-forward-circle" class="text-black text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
+            </button>
+          </div>
+        </template>
+        <template v-else>
+          <button @click="startPlaying" class="bg-white">
+            Start playing
+          </button>
+        </template>
       </div>
-    </div>
+    </template>
+
+    <template v-else>
+      <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : cardContentBlack[0].color)">
+        <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
+          {{ randomItem ? randomItem.content : "brt" }}
+        </div>
+        <div class="text-[16px] text-start text-white font-black">
+          {{ randomItem ? randomItem.smallText : "brt" }}
+        </div>
+      </div>
+      <div class="flex items-center gap-x-[200px] justify-between">
+        <button @click="getPreviousCard">
+          <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
+        </button>
+        <button @click="getRandomCard">
+          <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
+        </button>
+      </div>
+
+      <div class="none fixed top-[50%] left-[50%] transform translate-x-[50%] translate-y-[50%] bg-white rounded-[25px] p-[20px] z-50" v-if="showModal">
+        <div class="modal-content">
+            <h2>Modal Content</h2>
+            <p>This is your modal content.</p>
+            <button @click="closeModal">Close</button>
+        </div>
+      </div>
+    </template>
 
     <div class="none fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 z-40 backdrop-blur" v-if="showModal"></div>
 
@@ -38,8 +67,23 @@ import { getTransitionRawChildren } from 'vue';
 export default {
   data() {
     return {
+      firstVisit: true,
       currentIndex: 0,
       autoMoveInterval: null,
+
+      rules: [
+        '<p>blablabla 1</p>',
+        '<p>blablabla 2</p>',
+        '<p>blablabla 3</p>',
+        '<p>blablabla 4 </p>',
+        '<p>blablabla 5</p>',
+      ],
+
+      ruleCurrent: 0,
+
+      ruleConsent: false,
+
+
       cardContentBlack: [
         { content: "Брат, не можеш да махнеш чорапите си със зъби. Ако не можеш - пий два пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
         { content: "Брат, не можеш да бъркаш из кошчето и да назовеш всичко, което намериш. Ако не можеш - пий два пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
@@ -114,7 +158,7 @@ export default {
     };
   },
   mounted() {
-    this.showModal = true
+    this.showModal = false
   },
   methods: {
     getRandomCard() {
@@ -182,9 +226,25 @@ export default {
         console.log(JSON.stringify(this.usedCards, null, 2));
       }
     },
-    closeModal() {
-      this.showModal = false;
-    }
+    ruleNext() {
+      console.log(this.ruleCurrent)
+      if (this.ruleCurrent + 1 < this.rules.length) {
+        this.ruleCurrent ++;
+      }
+    },
+    rulePrev() {
+      if (this.ruleCurrent > 0) {
+        this.ruleCurrent--;
+      }
+    },
+    startPlaying() {
+      if (!this.ruleConsent) {
+        alert('You need to agreeeee!');
+        return;
+      }
+
+      this.firstVisit = false;
+    },
   }
 };
 
