@@ -5,8 +5,6 @@
 
     <!--modal-->
     <template v-if="firstVisit">
-
-
         <div :class="[
           'h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px] ',
           bgCard ? 'bg-popup' : ''
@@ -16,8 +14,8 @@
             <div class="flex flex-col gap-5" v-if="ruleCurrent == rules.length - 1">
               <p class="text-[18px]">Преди да приключим ще те<br>помолим да се съгласиш с нашите<br><a @click="goToTerms" class="blue-color-text underline hover:cursor-pointer">общи условия</a> 👈</p>
               <div>
-                <input type="checkbox" id="consent" v-model="ruleConsent" class="me-2" /> 
-                <label for="consent" class="text-[12px] font-medium underline">Общи условия</label>
+                <input type="checkbox" id="consent" v-model="consent"  class="me-2" /> 
+                <label for="consent" class="text-[15px] blue-color-text font-medium underline">Съгласявам се с общите условия и продължавам</label>
               </div>
             </div>
 
@@ -27,16 +25,6 @@
                   Назад
                 </button>
                 <button @click="ruleNext" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
-                  Напред
-                </button>
-              </div>
-            </template>
-            <template v-else>
-              <div class="flex items-center gap-x-[20vw] md:gap-x-[200px] justify-between">
-                <button @click="rulePrev" class="invisible cursor-default blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
-                  Назад
-                </button>
-                <button @click="startPlaying" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
                   Напред
                 </button>
               </div>
@@ -142,6 +130,7 @@ export default {
   data() {
     return {
       firstVisit: true,
+      consent: false,
       start: false,
       currentIndex: 0,
       autoMoveInterval: null,
@@ -155,7 +144,6 @@ export default {
       ],
 
       ruleCurrent: 0,
-      ruleConsent: false,
 
       cardContentBlack: [
         { content: "Брат, не можеш да махнеш чорапите си със зъби. Ако не можеш - пий два пъти.", smallText: "Тази карта носи 1 точка", color: "purple" },
@@ -241,10 +229,15 @@ export default {
       feedback: false,
 
       terms: false,
+
+      firstUse: false,
     };
   },
-  mounted() {
-    this.showModal = false
+  watch: {
+    consent: function(value) {
+      this.$cookies.set('consent', value);
+      this.firstVisit = !value;
+    }
   },
   methods: {
 
@@ -374,11 +367,10 @@ export default {
 
 
     startPlaying() {
-      if (!this.ruleConsent) {
+      if (!this.firstVisit) {
         alert('Моля, съгласете се с общите условия преди да продължите към играта!');
         return;
       }
-      this.firstVisit = false;
     },
 
 
@@ -386,6 +378,9 @@ export default {
       this.start = true;
       this.right = true;
     },
+  },
+  mounted() {
+    this.firstVisit = this.$cookies.get('consent') ? false : true;
   }
 };
 
