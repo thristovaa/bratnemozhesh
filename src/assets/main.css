@@ -1,10 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-@import './base.css';
 
 :root{
   --main-cards: #19171D;
@@ -13,7 +11,8 @@
   --teal-cards: #63B6AD;
   --red-cards: #BE2426;
   --green-cards: #88C040;
-  --blue-text: #4753A4
+  --white-cards: #E8E2F0;
+  --blue-text: #4753A4;
 }
 
 *{
@@ -60,18 +59,55 @@ body{
 }
 
 .white{
-  background-color: #E8E2F0;
+  background-color: var(--white-cards);
 }
 .black{
   background-color: var(--main-cards) !important;
 }
+
+
 .black-main{
   background-color: var(--main-cards) !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+  color: var(--main-cards) !important;
   gap: 5px;
 }
+.white-main{
+  background-color: var(--main-cards) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  color: var(--white-cards) !important;
+  gap: 5px;
+}
+
+
+.white-color-text{
+  color: var(--white-cards);
+}
+.black-color-text{
+  color: var(--main-cards);
+}
+
+
+.white-switch{
+  background-color: var(--white-cards) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 3px;
+}
+.black-switch{
+  background-color: var(--black-cards) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 3px;
+}
+
+
 .purple{
   background-color: var(--purple-cards) !important;
 }

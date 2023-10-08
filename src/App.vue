@@ -5,40 +5,65 @@
 
     <!--modal-->
     <template v-if="firstVisit">
-      <div :class="[
-        'h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px] ',
-        bgCard ? 'bg-popup' : ''
-      ]">
-        <div v-html="rules[ruleCurrent]"></div>
-        <div class="flex flex-col gap-5" v-if="ruleCurrent == rules.length - 1">
-          <p class="text-[18px]">Преди да приключим ще те<br>помолим да се съгласиш с нашите<br>общи условия.</p>
-          <div>
-            <input type="checkbox" id="consent" v-model="ruleConsent" class="me-2" /> 
-            <label for="consent" class="text-[12px] font-medium underline">Общи условия</label>
-          </div>
-        </div>
 
-        <template v-if="ruleCurrent + 1 < rules.length">
-          <div class="flex items-center gap-x-[20vw] md:gap-x-[200px] justify-between">
-            <button @click="rulePrev" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
-              Назад
-            </button>
-            <button @click="ruleNext" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
-              Напред
-            </button>
-          </div>
-        </template>
-        <template v-else>
-          <div class="flex items-center gap-x-[200px] justify-between">
-            <button @click="rulePrev" class="invisible cursor-default blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
-              Назад
-            </button>
-            <button @click="startPlaying" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
-              Напред
-            </button>
-          </div>
-        </template>
-      </div>
+
+        <div :class="[
+          'h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px] ',
+          bgCard ? 'bg-popup' : ''
+        ]">
+          <template v-if="!terms">
+            <div v-html="rules[ruleCurrent]"></div>
+            <div class="flex flex-col gap-5" v-if="ruleCurrent == rules.length - 1">
+              <p class="text-[18px]">Преди да приключим ще те<br>помолим да се съгласиш с нашите<br><a @click="goToTerms" class="blue-color-text underline hover:cursor-pointer">общи условия</a> 👈</p>
+              <div>
+                <input type="checkbox" id="consent" v-model="ruleConsent" class="me-2" /> 
+                <label for="consent" class="text-[12px] font-medium underline">Общи условия</label>
+              </div>
+            </div>
+
+            <template v-if="ruleCurrent + 1 < rules.length">
+              <div class="flex items-center gap-x-[20vw] md:gap-x-[200px] justify-between">
+                <button @click="rulePrev" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
+                  Назад
+                </button>
+                <button @click="ruleNext" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
+                  Напред
+                </button>
+              </div>
+            </template>
+            <template v-else>
+              <div class="flex items-center gap-x-[20vw] md:gap-x-[200px] justify-between">
+                <button @click="rulePrev" class="invisible cursor-default blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
+                  Назад
+                </button>
+                <button @click="startPlaying" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
+                  Напред
+                </button>
+              </div>
+            </template>
+          </template>
+          <template v-else>
+            <div class="overflow-y-scroll">
+              <p class="text-[18px]"><strong>Дата на влизане в сила: 27.09.2023</strong></p>
+              <p class="text-[18px]">Моля, внимателно прочетете тези условия за ползване преди да използвате играта ни. С достъпа или използването на играта вие се съгласявате да спазвате и бъдете обвързани от тези Условия. Ако не сте съгласни с тези Условия, моля, не използвайте Играта.</p>
+              <p class="text-[18px]"><strong>Правоспособност:</strong>Трябва да сте на законната възраст за консумация на алкохол според вашата юрисдикция(за България 18 години), за да използвате играта. С използването на играта потвърждавате, че сте на законната възраст за консумация на алкохол и сте отговорни за действията си по време на играта.</p>
+              <p class="text-[18px]"><strong>Потребителски профили:</strong>Може да бъде необходимо да създадете потребителски профил, за да получите достъп до определени функции на играта. Вие носите отговорност за поддържането на поверителността на данните за вашия профил и се съгласявате да не споделяте информацията за вашия профил с други. Вие носите изключителна отговорност за всички дейности, които се извършват под вашия профил.</p>
+              <p class="text-[18px]"><strong>Правила и насоки за играта:</strong>Играта е предназначена за развлекателни цели, специално за партита. С използването на Играта вие се съгласявате да спазвате правилата и насоките, предоставени в Играта, и разбирате, че прекомерната консумация на алкохол може да бъде вредна за вашето здраве. Моля, пийте отговорно.</p>
+              <p class="text-[18px]"><strong>Потребителско поведение:</strong>Съгласявате се да използвате Играта по законен и отговорен начин. Нямате право да: 1. Участвате в незаконни или вредни дейности по време на използване на Играта. 2. Качвате, споделяте или създавате съдържание, което е обидно, клеветническо или нарушава правата на другите. 3. Използвате играта за рекламиране или участие в незаконни дейности или консумация на алкохол от непълнолетни.</p>
+              <p class="text-[18px]"><strong>Поверителност:</strong>Политиката ни за поверителност урежда събирането и използването на вашата лична информация. С използването на играта вие се съгласявате с условията, изложени в нашата политика за поверителност.</p>
+              <p class="text-[18px]"><strong>Откази:</strong> Използвате Играта на ваш риск. Ние не носим отговорност за вреди, произтичащи от използването на играта, включително, но не само последиците от консумацията на алкохол.</p>
+              <p class="text-[18px]"><strong>Ограничение на отговорността:</strong>В никакъв случай „Брат, не можеш..“ или свързани с бранда лица не носят отговорност за непряка или случайна вреда от използването на играта или каквито и да било действия, свързани с играта.</p>
+              <p class="text-[18px]"><strong>Промени в условията:</strong> Запазваме правото си да променяме тези условия по всяко време. Всякакви промени ще бъдат публикувани на тази страница. Вашето продължаващо използване на играта след публикуването на промените се счита за приемане на актуализираните условия.</p>
+              <p class="text-[18px]">Ако имате въпроси или притеснения относно тези условия, моля, свържете се с нас на:</p>
+              <p class="text-[18px] blue-color-text">bratnemozhesh@gmail.com; +359 88 469 9814.</p>
+              <p class="text-[18px]">С използването на играта вие признавате, че сте прочели, разбрали и се съгласили с тези условия за ползване.</p>
+              <button @click="goBack" class="px-10 py-2 mt-5 border-2 border-black rounded-[20px]">Назад</button>
+            </div>
+          </template>
+        </div>
+      
+
+
       <div class="flex items-center gap-x-[200px] justify-between">
         <button>
           <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
@@ -51,20 +76,18 @@
     <!--modal-->
 
     <template v-else-if="end">
-      <template v-if="!feedback">
-        <div class="h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px]">
-          <div class="text-[17px] md:text-[24px]">
-            <p>Честито!</p>
-            <p>Изигра всички карти, мръсна пияницо.</p>
-            <p>Надяваме се да си се забавлявал с приятелите си. Много скоро идва и цялата игра, която е с 6 пъти повече различни карти от тази. Не си готов за това 😈</p>
-          </div>
-          <div class="flex justify-center items-center flex-col gap-5">
-            <button @click="reloadWebsite" class="text-[18px] underline blue-color-text font-black">Играй отново!</button>
-            <!--<button class="text-[18px] underline blue-color-text font-black">Виж социалните ни мрежи</button>-->
-            <button @click="goToFeedback" class="text-[18px] underline blue-color-text font-black">Кажи ни мнението си за играта</button>
-          </div>
+      <div class="h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px]">
+        <div class="text-[17px] md:text-[24px]">
+          <p>Честито!</p>
+          <p>Изигра всички карти, мръсна пияницо.</p>
+          <p>Надяваме се да си се забавлявал с приятелите си. Много скоро идва и цялата игра, която е с 6 пъти повече различни карти от тази. Не си готов за това 😈</p>
         </div>
-      </template>
+        <div class="flex justify-center items-center flex-col gap-5">
+          <button @click="reloadWebsite" class="text-[18px] underline blue-color-text font-black">Играй отново!</button>
+          <a class="text-[18px] underline blue-color-text font-black" href="https://linktr.ee/bratnemozhesh" target="_blank">Виж социалните ни мрежи</a>
+          <!--<button @click="goToFeedback" class="text-[18px] underline blue-color-text font-black">Кажи ни мнението си за играта</button>-->
+        </div>
+      </div>
       <!--<template v-else>
         <div class="h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px]">
           <div class="text-[24px] md:text-[24px] font-black flex flex-col gap-3 items-start justify-between">
@@ -86,8 +109,9 @@
     <template v-else>
       <template v-if="start">
         <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : main[0].color)">
-          <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat" v-html="randomItem ? randomItem.content : main[0].content"></div>
-          <div class="text-[16px] text-start text-white font-black" v-html="randomItem ? randomItem.smallText : main[0].smallText"></div>
+          <div class='text-[14px] text-white font-bold' v-html="randomItem ? randomItem.content : main[0].content"></div>
+          <div :class="['text-[14px] text-white font-bold', switchActive ? 'text-center' : 'text-start']" v-html="randomItem ? randomItem.smallText : main[0].smallText">
+          </div>
         </div>
         <div class="flex items-center gap-x-[200px] justify-between">
           <button @click="getPreviousCard" :class="!left ? 'opacity-5' : ''">
@@ -110,8 +134,6 @@
         </div>
       </template>
     </template>
-
-
 </template>
 
 <script>
@@ -191,8 +213,8 @@ export default {
         { content: 'Запази тази карта и я използвай, ако искаш да изтеглиш ново предизвикателство.', smallText: '#bratnemozhesh...', color: 'green' },
       ],
       switch: [
-        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
-        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
+        { content: '<img src="switch/switch_darkCard.png" alt="switch dark">', smallText: "<p>Премини на другото<br>тесте</p>", color: "black-switch" },
+        { content: '<img src="switch/switch_lightCard.png" alt="switch light">', smallText: "<p class='black-color-text'>Премини на другото<br>тесте</p>", color: "white-switch" },
       ],
       main: [
         { content: '<img alt="logo white" src="logo_white.png">', smallText: '<img alt="hashtag" src="hashtag.png">', color: "black-main" },
@@ -213,7 +235,12 @@ export default {
 
       end: false,
 
-      feedback: false
+      switchActive: false,
+      switchWhite: false,
+
+      feedback: false,
+
+      terms: false,
     };
   },
   mounted() {
@@ -231,8 +258,19 @@ export default {
     },
 
 
+    goToTerms() {
+      this.terms = true
+    },
+
+
+    goBack() {
+      this.terms = false
+    },
+
+
     getRandomCard() {
       if(this.counterAll == this.usedCards.length){
+        this.switchActive = false
         this.counterAll++;
         console.log("counter: " + this.counterAll);
 
@@ -256,9 +294,11 @@ export default {
           this.counter++;
           console.log(this.counter)
           if(this.counter == 13){
-            this.randomItem = this.switch[0]
+            this.randomItem = this.switch[0];
             this.black = false;
             this.counter = 0;
+            this.switchActive = true;
+            this.switchWhite = true;
           }
         } else if(this.cardContentWhite.length > 0 && !this.black){
           let randomCard = Math.floor(Math.random() * this.cardContentWhite.length);
@@ -271,9 +311,11 @@ export default {
           this.counter++;
           console.log(this.counter)
           if(this.counter == 13){
-            this.randomItem = this.switch[1]
+            this.randomItem = this.switch[1];
             this.black = true;
             this.counter = 0;
+            this.switchActive = true;
+            this.switchWhite = false;
           }
         }      
         else {
@@ -333,7 +375,7 @@ export default {
 
     startPlaying() {
       if (!this.ruleConsent) {
-        alert('You need to agreeeee!');
+        alert('Моля, съгласете се с общите условия преди да продължите към играта!');
         return;
       }
       this.firstVisit = false;
