@@ -13,6 +13,7 @@
   --teal-cards: #63B6AD;
   --red-cards: #BE2426;
   --green-cards: #88C040;
+  --blue-text: #4753A4
 }
 
 *{
@@ -47,6 +48,13 @@ body{
   font-family: 'Montserrat', sans-serif !important;
 }
 
+.blue-color-text{
+  color: var(--blue-text);
+}
+
+.white{
+  background-color: #E8E2F0;
+}
 .black{
   background-color: var(--main-cards) !important;
 }
