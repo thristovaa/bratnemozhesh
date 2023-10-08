@@ -44,6 +44,13 @@ body{
   justify-content: center;
 }
 
+.bg-popup{
+  background-image: url("bg/bg-card-desktop.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
 .font-montserrat{
   font-family: 'Montserrat', sans-serif !important;
 }

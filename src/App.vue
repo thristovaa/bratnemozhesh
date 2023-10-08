@@ -5,7 +5,10 @@
 
     <!--modal-->
     <template v-if="firstVisit">
-      <div class="h-[50vh] w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[52px]">
+      <div :class="[
+        'h-[50vh] w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[52px] ',
+        bgCard ? 'bg-popup' : ''
+      ]">
         <div v-html="rules[ruleCurrent]"></div>
         <div class="flex flex-col gap-5" v-if="ruleCurrent == rules.length - 1">
           <p class="text-[18px]">Преди да приключим ще те<br>помолим да се съгласиш с нашите<br>общи условия.</p>
@@ -37,11 +40,11 @@
         </template>
       </div>
       <div class="flex items-center gap-x-[200px] justify-between">
-        <button @click="getPreviousCard">
-          <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
+        <button>
+          <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
         </button>
-        <button @click="getRandomCard">
-          <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="next"></ion-icon>
+        <button>
+          <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="next"></ion-icon>
         </button>
       </div>
     </template>
@@ -54,8 +57,8 @@
           <div class="text-[16px] text-start text-white font-black" v-html="randomItem ? randomItem.smallText : main[0].smallText"></div>
         </div>
         <div class="flex items-center gap-x-[200px] justify-between">
-          <button @click="getPreviousCard">
-            <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
+          <button @click="getPreviousCard" :class="!left ? 'opacity-5' : ''">
+            <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
           </button>
           <button @click="getRandomCard">
             <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
@@ -66,10 +69,10 @@
         <button class="text-[30px] py-7 px-20 rounded-[25px] white font-extrabold" @click="startGame">Започни</button>
         <div class="flex items-center gap-x-[200px] justify-between">
           <button @click="getPreviousCard">
-            <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
+            <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
           </button>
           <button @click="getRandomCard">
-            <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
+            <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" id="next"></ion-icon>
           </button>
         </div>
       </template>
@@ -79,8 +82,6 @@
 </template>
 
 <script>
-import { getTransitionRawChildren } from 'vue';
-
 
 export default {
   data() {
@@ -159,35 +160,42 @@ export default {
       ],
       switch: [
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
-        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
-        { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
       ],
       main: [
         { content: '<img alt="logo white" src="logo_white.png">', smallText: '<img alt="hashtag" src="hashtag.png">', color: "black-main" },
       ],
-      additionalClassObject: {
-        'opacity-5': true,
-        'opacity-10': false
-      },
+
       usedCards: [],
+
       randomItem: null,
+
       counter: 0,
       counterAll: 0,
+
       black: true,
-      showModal: false
+
+      bgCard: false,
+
+      left: false,
+      right: false
     };
   },
   mounted() {
     this.showModal = false
   },
   methods: {
+
     getRandomCard() {
       if(this.counterAll == this.usedCards.length){
         this.counterAll++;
         console.log("counter: " + this.counterAll);
 
         console.log(this.black);
+
+        if(this.counterAll > 0){
+          this.left = true;
+        }
 
         if(this.cardContentBlack.length > 0 && this.black){
           let randomCard = Math.floor(Math.random() * this.cardContentBlack.length);
@@ -198,7 +206,7 @@ export default {
           this.usedCards.push(previousCard);
 
           if(this.usedCards.length > 0) console.log("There are used cards");
-          console.log(JSON.stringify(this.usedCards, null, 2));
+          //console.log(JSON.stringify(this.usedCards, null, 2));
 
           this.counter++;
           console.log(this.counter)
@@ -219,7 +227,7 @@ export default {
 
           console.log(this.counter)
           if(this.counter == 12){
-            this.randomItem = this.switch[0]
+            this.randomItem = this.switch[1]
             this.black = true;
             this.counter = 0;
           }
@@ -236,10 +244,12 @@ export default {
         console.log(this.randomItem);
       }
     },
+
+
     getPreviousCard() {
       if (this.usedCards.length > 0) {
         if (this.counterAll > 0) {
-          this.counterAll--; // Decrement the counterAll
+          this.counterAll--;
           console.log("counter: " + this.counterAll);
         }
         const previousCard = this.usedCards[this.counterAll - 1];
@@ -247,27 +257,47 @@ export default {
         console.log(JSON.stringify(this.usedCards, null, 2));
       }
     },
+
+
     ruleNext() {
       console.log(this.ruleCurrent)
       if (this.ruleCurrent + 1 < this.rules.length) {
         this.ruleCurrent ++;
       }
+      if(this.ruleCurrent == 2){
+        this.bgCard = true;
+      }
+      else{
+        this.bgCard = false;
+      }
     },
+
+
     rulePrev() {
       if (this.ruleCurrent > 0) {
         this.ruleCurrent--;
       }
+      if(this.ruleCurrent == 2){
+        this.bgCard = true;
+      }
+      else{
+        this.bgCard = false;
+      }
     },
+
+
     startPlaying() {
       if (!this.ruleConsent) {
         alert('You need to agreeeee!');
         return;
       }
-
       this.firstVisit = false;
     },
+
+
     startGame() {
       this.start = true;
+      this.right = true;
     },
   }
 };
