@@ -191,7 +191,7 @@ export default {
         this.counterAll++;
         console.log("counter: " + this.counterAll);
 
-        console.log(this.black);
+        //console.log(this.black);
 
         if(this.counterAll > 0){
           this.left = true;
@@ -199,7 +199,7 @@ export default {
 
         if(this.cardContentBlack.length > 0 && this.black){
           let randomCard = Math.floor(Math.random() * this.cardContentBlack.length);
-          console.log("random: " + randomCard)
+          //console.log("random: " + randomCard)
           this.randomItem = this.cardContentBlack[randomCard];
 
           let previousCard = this.cardContentBlack.splice(randomCard, 1);
@@ -220,11 +220,10 @@ export default {
           this.randomItem = this.cardContentWhite[randomCard];
           
           let previousCard = this.cardContentWhite.splice(randomCard, 1);
-          this.usedCards.previousCard = previousCard;
+          this.usedCards.push(previousCard);
 
-          console.log(this.usedCards[0]);
+          //console.log(this.usedCards[0]);
           this.counter++;
-
           console.log(this.counter)
           if(this.counter == 12){
             this.randomItem = this.switch[1]
