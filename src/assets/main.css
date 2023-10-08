@@ -48,7 +48,7 @@ body{
   background-image: url("bg/bg-card-desktop.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: bottom;
+  background-position: right bottom;
 }
 
 .font-montserrat{
