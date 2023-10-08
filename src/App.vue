@@ -49,13 +49,9 @@
 
     <template v-else>
       <template v-if="start">
-        <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : cardContentBlack[0].color)">
-          <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat">
-            {{ randomItem ? randomItem.content : "brt" }}
-          </div>
-          <div class="text-[16px] text-start text-white font-black">
-            {{ randomItem ? randomItem.smallText : "brt" }}
-          </div>
+        <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : main[0].color)">
+          <div class="text-[18px] leading-[20px] text-start text-white !font-extrabold font-montserrat" v-html="randomItem ? randomItem.content : main[0].content"></div>
+          <div class="text-[16px] text-start text-white font-black" v-html="randomItem ? randomItem.smallText : main[0].smallText"></div>
         </div>
         <div class="flex items-center gap-x-[200px] justify-between">
           <button @click="getPreviousCard">
@@ -79,7 +75,6 @@
       </template>
     </template>
 
-    <div class="none fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 z-40 backdrop-blur" v-if="showModal"></div>
 
 </template>
 
@@ -167,6 +162,9 @@ export default {
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "black" },
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
         { content: 'SWITCH', smallText: "#bratnemozhesh", color: "white" },
+      ],
+      main: [
+        { content: '<img alt="logo white" src="logo_white.png">', smallText: '<img alt="hashtag" src="hashtag.png">', color: "black-main" },
       ],
       additionalClassObject: {
         'opacity-5': true,

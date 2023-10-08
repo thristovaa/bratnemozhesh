@@ -58,6 +58,13 @@ body{
 .black{
   background-color: var(--main-cards) !important;
 }
+.black-main{
+  background-color: var(--main-cards) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 5px;
+}
 .purple{
   background-color: var(--purple-cards) !important;
 }
