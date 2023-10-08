@@ -50,6 +50,39 @@
     </template>
     <!--modal-->
 
+    <template v-else-if="end">
+      <template v-if="!feedback">
+        <div class="h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px]">
+          <div class="text-[17px] md:text-[24px]">
+            <p>Честито!</p>
+            <p>Изигра всички карти, мръсна пияницо.</p>
+            <p>Надяваме се да си се забавлявал с приятелите си. Много скоро идва и цялата игра, която е с 6 пъти повече различни карти от тази. Не си готов за това 😈</p>
+          </div>
+          <div class="flex justify-center items-center flex-col gap-5">
+            <button @click="reloadWebsite" class="text-[18px] underline blue-color-text font-black">Играй отново!</button>
+            <!--<button class="text-[18px] underline blue-color-text font-black">Виж социалните ни мрежи</button>-->
+            <button @click="goToFeedback" class="text-[18px] underline blue-color-text font-black">Кажи ни мнението си за играта</button>
+          </div>
+        </div>
+      </template>
+      <!--<template v-else>
+        <div class="h-[50vh] w-[60vw] md:w-[50vw] border-white white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[24px] md:p-[52px]">
+          <div class="text-[24px] md:text-[24px] font-black flex flex-col gap-3 items-start justify-between">
+            <p>Благодарим ти, че си пич. Сега е момента да<br>кажеш какво мислиш за играта ни:</p>
+            <input type="text" name="feedback" id="" class="w-[30vw] h-[20vh] overflow-auto resize-none rounded-[25px] white">
+          </div>
+        </div>
+      </template>-->
+      <div class="flex items-center gap-x-[200px] justify-between">
+        <button>
+          <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
+        </button>
+        <button>
+          <ion-icon name="chevron-forward-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="next"></ion-icon>
+        </button>
+      </div>
+    </template>
+
     <template v-else>
       <template v-if="start">
         <div :class="'h-[350px] w-[250px] border-white border-[1px] rounded-[25px] flex flex-col align-start justify-between p-[22px] ' + (randomItem ? randomItem.color : main[0].color)">
@@ -100,7 +133,6 @@ export default {
       ],
 
       ruleCurrent: 0,
-
       ruleConsent: false,
 
       cardContentBlack: [
@@ -178,13 +210,26 @@ export default {
       bgCard: false,
 
       left: false,
-      right: false
+
+      end: false,
+
+      feedback: false
     };
   },
   mounted() {
     this.showModal = false
   },
   methods: {
+
+    reloadWebsite() {
+      window.location.reload(); // This line will reload the website
+    },
+
+
+    goToFeedback() {
+      this.feedback = true
+    },
+
 
     getRandomCard() {
       if(this.counterAll == this.usedCards.length){
@@ -210,7 +255,7 @@ export default {
 
           this.counter++;
           console.log(this.counter)
-          if(this.counter == 12){
+          if(this.counter == 13){
             this.randomItem = this.switch[0]
             this.black = false;
             this.counter = 0;
@@ -225,7 +270,7 @@ export default {
           //console.log(this.usedCards[0]);
           this.counter++;
           console.log(this.counter)
-          if(this.counter == 12){
+          if(this.counter == 13){
             this.randomItem = this.switch[1]
             this.black = true;
             this.counter = 0;
@@ -233,6 +278,7 @@ export default {
         }      
         else {
           this.randomItem = null;
+          this.end = true;
         }
       }
       else{
