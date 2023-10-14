@@ -1,7 +1,7 @@
 
 <template>
   <!--<img src="logo.png" alt="logo">-->
-    <img src="logo.png" alt="logo">
+    <img src="./assets/logo.png" alt="logo">
 
     <!--modal-->
     <template v-if="firstVisit">
@@ -12,19 +12,27 @@
           <template v-if="!terms">
             <div v-html="rules[ruleCurrent]"></div>
             <div class="flex flex-col gap-5" v-if="ruleCurrent == rules.length - 1">
-              <p class="text-[18px]">Преди да приключим ще те<br>помолим да се съгласиш с нашите<br><a @click="goToTerms" class="blue-color-text underline hover:cursor-pointer">общи условия</a> 👈</p>
+              <p class="text-[13px] md:text-[18px]">Преди да приключим ще те<br>помолим да се съгласиш с нашите<br><a @click="goToTerms" class="blue-color-text underline hover:cursor-pointer">общи условия</a> 👈</p>
               <div>
                 <input type="checkbox" id="consent" v-model="consent"  class="me-2" /> 
-                <label for="consent" class="text-[15px] blue-color-text font-medium underline">Съгласявам се с общите условия и продължавам</label>
+                <label for="consent" class="text-[13px] md:text-[15px] blue-color-text font-medium underline">Съгласявам се с общите условия и продължавам</label>
+                <div class="flex items-center gap-x-[15vw] md:gap-x-[200px] justify-between">
+                  <button @click="rulePrev" class="invisible blue-color-text font-extrabold underline underline-offset-2 text-[15px] md:text-[22px]">
+                    Назад
+                  </button>
+                  <button @click="ruleNext" class="blue-color-text font-extrabold underline underline-offset-2 text-[15px] md:text-[22px]">
+                    Напред
+                  </button>
+                </div>
               </div>
             </div>
 
             <template v-if="ruleCurrent + 1 < rules.length">
               <div class="flex items-center gap-x-[15vw] md:gap-x-[200px] justify-between">
-                <button @click="rulePrev" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
+                <button @click="rulePrev" class="blue-color-text font-extrabold underline underline-offset-2 text-[15px] md:text-[22px]">
                   Назад
                 </button>
-                <button @click="ruleNext" class="blue-color-text font-extrabold underline underline-offset-2 text-[17px] md:text-[22px]">
+                <button @click="ruleNext" class="blue-color-text font-extrabold underline underline-offset-2 text-[15px] md:text-[22px]">
                   Напред
                 </button>
               </div>
@@ -84,7 +92,7 @@
           </div>
         </div>
       </template>-->
-      <div class="flex items-center gap-x-[200px] justify-between">
+      <div class="flex items-center gap-x-[30vw] md:gap-x-[200px] justify-between">
         <button>
           <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
         </button>
@@ -101,7 +109,7 @@
           <div :class="['text-[14px] text-white font-bold', switchActive ? 'text-center' : 'text-start']" v-html="randomItem ? randomItem.smallText : main[0].smallText">
           </div>
         </div>
-        <div class="flex items-center gap-x-[200px] justify-between">
+        <div class="flex items-center gap-x-[30vw] md:gap-x-[200px] justify-between">
           <button @click="getPreviousCard" :class="!left ? 'opacity-5' : ''">
             <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 hover:scale-[1.1]" id="next"></ion-icon>
           </button>
@@ -111,8 +119,8 @@
         </div>
       </template>
       <template v-else>
-        <button class="text-[30px] py-7 px-20 rounded-[25px] white font-extrabold" @click="startGame">Започни</button>
-        <div class="flex items-center gap-x-[200px] justify-between">
+        <button class="py-6 px-16 text-[25px] md:text-[30px] md:py-7 md:px-20 rounded-[25px] white font-extrabold" @click="startGame">Започни</button>
+        <div class="flex items-center gap-x-[30vw] md:gap-x-[200px] justify-between">
           <button @click="getPreviousCard">
             <ion-icon name="chevron-back-circle" class="text-white text-[100px] transition-all ease-in duration-300 opacity-5 hover:scale-[1.1]" :class="additionalClassObject" id="previous"></ion-icon>
           </button>
@@ -136,11 +144,11 @@ export default {
       autoMoveInterval: null,
 
       rules: [
-        '<div class="text-[15px] md:text-[24px]"><p>Здравей!</p><p>В момента ти си в дигиталната версия на “Брат, не можеш...”. Тук ще усетиш истинското чувство да играеш най-дивата парти игра на планетата <strong>преди всички останали</strong>. Изключително благодарни сме и се радваме, че ни се довери да направим вечерите ти неповторими, а ние обещаваме, че няма да те разочароваме.</p><p>Натисни <strong>“Напред”</strong> и нека заедно се потопим в купона... </p></div>',
-        '<div class="text-[15px] md:text-[24px]"><p>Вече навлизаме в играта. Тук ще намерите изключително <strong>диви</strong> и в повечето случаи <strong>нечовешки предизвикателства</strong> и още други забавни карти.</p><p>Съдържа <strong>две тестета</strong> - едното с предизвикателства и другото със съответните забавни карти, за които тъпите създатели на играта така и не успяха да измислят име</p></div>',
-        '<div class="text-[15px] md:text-[24px]"><p>Когато приключиш с този досаден tutorial, натисни бутона <strong>“Започни”</strong>. Ще започнат да ти излизат карти с предизвикателства. От там нататък общо взето всичко, което трябва да правиш е да цъкаш <strong>“<”</strong> или <strong>“>”</strong> в зависимост от това дали искаш да видиш <strong>предишната</strong> или </strong>следващата</strong> карта.</p></div>',
-        '<div class="text-[15px] md:text-[24px]"><p>Това е switch карта:</p><div class="flex justify-start align-center gap-5"><img alt="switch white" src="switch/white_switch.png"><img alt="switch black" src="switch/black_switch.png"></div><p>Когато се падне, автоматично ще започнат да се показват карти от другото тесте и така всеки път като се покаже тази карта. На всяка друга карта е написано какво прави, така че нямаме намерение да се обясняваме. Знаем, че си достатъчно умен 😘</p></div>',
-        '<div class="text-[15px] md:text-[24px] flex flex-col justify-between align-start"><p>Пожелаваме ти приятна и отговорна игра.</p><p>Помни - консумацията на алкохол не е нужна за целите на играта.</p><p>Забавлявай се и умната!</p></div>',
+        '<div class="text-[13px] md:text-[24px]"><p>Здравей!</p><p>В момента ти си в дигиталната версия на “Брат, не можеш...”. Тук ще усетиш истинското чувство да играеш най-дивата парти игра на планетата <strong>преди всички останали</strong>. Изключително благодарни сме и се радваме, че ни се довери да направим вечерите ти неповторими, а ние обещаваме, че няма да те разочароваме.</p><p>Натисни <strong>“Напред”</strong> и нека заедно се потопим в купона... </p></div>',
+        '<div class="text-[13px] md:text-[24px]"><p>Вече навлизаме в играта. Тук ще намерите изключително <strong>диви</strong> и в повечето случаи <strong>нечовешки предизвикателства</strong> и още други забавни карти.</p><p>Съдържа <strong>две тестета</strong> - едното с предизвикателства и другото със съответните забавни карти, за които тъпите създатели на играта така и не успяха да измислят име</p></div>',
+        '<div class="text-[13px] md:text-[24px]"><p>Когато приключиш с този досаден tutorial, натисни бутона <strong>“Започни”</strong>. Ще започнат да ти излизат карти с предизвикателства. От там нататък общо взето всичко, което трябва да правиш е да цъкаш <strong>“<”</strong> или <strong>“>”</strong> в зависимост от това дали искаш да видиш <strong>предишната</strong> или </strong>следващата</strong> карта.</p></div>',
+        '<div class="text-[13px] md:text-[24px]"><p>Това е switch карта:</p><div class="flex justify-start align-center gap-5"><img alt="switch white" class="w-[20vw] h-[100px]" src="switch/white_switch.png"><img alt="switch black" class="w-[20vw] h-[100px]" src="switch/black_switch.png"></div><p>Когато се падне, автоматично ще започнат да се показват карти от другото тесте и така всеки път като се покаже тази карта. На всяка друга карта е написано какво прави, така че нямаме намерение да се обясняваме. Знаем, че си достатъчно умен 😘</p></div>',
+        '<div class="text-[13px] md:text-[24px] flex flex-col justify-between align-start"><p>Пожелаваме ти приятна и отговорна игра.</p><p>Помни - консумацията на алкохол не е нужна за целите на играта.</p><p>Забавлявай се и умната!</p></div>',
       ],
 
       ruleCurrent: 0,
@@ -232,12 +240,6 @@ export default {
 
       firstUse: false,
     };
-  },
-  watch: {
-    consent: function(value) {
-      this.$cookies.set('consent', value);
-      this.firstVisit = !value;
-    }
   },
   methods: {
 
@@ -344,11 +346,16 @@ export default {
       if (this.ruleCurrent + 1 < this.rules.length) {
         this.ruleCurrent ++;
       }
-      if(this.ruleCurrent == 2){
+
+      if (this.ruleCurrent == 2){
         this.bgCard = true;
-      }
-      else{
+      } else{
         this.bgCard = false;
+      }
+
+      if (this.ruleCurrent == this.rules.length - 1 && this.consent) {
+        this.$cookies.set('consent', this.consent);
+        this.firstVisit = !this.consent;
       }
     },
 
